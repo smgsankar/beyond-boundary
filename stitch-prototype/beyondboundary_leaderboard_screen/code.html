@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BeyondBoundary - Leaderboard</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec5b",
+                        "primary-dark": "#0ea641",
+                        "background-light": "#f9fafa",
+                        "background-dark": "#17191c",
+                        "surface-dark": "#23272F",
+                        "surface-dark-highlight": "#2d333b",
+                        "accent-red": "#ff4747",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    boxShadow: {
+                        'glow': '0 0 20px -5px rgba(19, 236, 91, 0.3)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for table container */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #17191c;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #323842;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #454e59;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex-none flex items-center justify-between border-b border-[#2d333b] px-6 py-4 bg-[#17191c] z-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_543)">
+<path d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z" fill="currentColor"></path>
+</g>
+<defs>
+<clippath id="clip0_6_543"><rect fill="white" height="48" width="48"></rect></clippath>
+</defs>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold tracking-tight">BeyondBoundary</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+<a class="text-gray-400 hover:text-white transition-colors text-sm font-medium" href="#">Home</a>
+<a class="text-gray-400 hover:text-white transition-colors text-sm font-medium" href="#">My Team</a>
+<a class="text-primary text-sm font-bold shadow-[0_1px_0_0_#13ec5b]" href="#">Leaderboard</a>
+<a class="text-gray-400 hover:text-white transition-colors text-sm font-medium" href="#">Leagues</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-xs text-gray-400">Welcome back,</p>
+<p class="text-sm font-bold text-white">Rahul K.</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-[#2d333b]" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDjG75yZQNtNoAFO-YE1N9ROuvtvH5v-ahReiLlYCOgCbCpt4FG4unrvSy0gTKzaEvgpeGgkz_U4B_C1R1u0qE2_RvanEAbDhyn5pzMMs7zAkKCJH8Z7mJy-7XtuZWAxKwePIgG1wlmT3iItI8FqCbe-vcyn5Y2mV-eahizD8Gc4X2Ak1lHUsEznmy4c0IcY88UqLxtZ7HUuJi4u1cppAnjsDp6AV7fb2htukvt6m6zA6lo7j-juu_99yLICCV2gZFaBD4X2UqKqPl_");'>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-hidden flex flex-col relative">
+<!-- Abstract Background Glow -->
+<div class="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-[#112217] to-transparent pointer-events-none -z-10"></div>
+<div class="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+<div class="w-full max-w-[1280px] mx-auto flex flex-col h-full px-4 sm:px-6 lg:px-8 py-6">
+<!-- Page Header & Stats Grid -->
+<div class="flex-none mb-6">
+<div class="flex flex-col lg:flex-row gap-6 items-end justify-between mb-8">
+<div>
+<h1 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-2 uppercase italic">Global Standings</h1>
+<p class="text-gray-400 text-lg">Track the top performers in the T20 World Cup Fantasy League</p>
+</div>
+<!-- Stats Widget -->
+<div class="flex gap-3 md:gap-4 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0">
+<div class="flex flex-col justify-center min-w-[140px] bg-surface-dark border border-[#2d333b] rounded-lg p-4 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl">groups</span>
+</div>
+<p class="text-gray-400 text-xs font-medium uppercase tracking-wider mb-1">Total Players</p>
+<p class="text-white text-2xl font-bold">1.2M</p>
+</div>
+<div class="flex flex-col justify-center min-w-[140px] bg-surface-dark border border-[#2d333b] rounded-lg p-4 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl">emoji_events</span>
+</div>
+<p class="text-gray-400 text-xs font-medium uppercase tracking-wider mb-1">Highest Score</p>
+<p class="text-primary text-2xl font-bold">5,021</p>
+</div>
+<div class="flex flex-col justify-center min-w-[140px] bg-surface-dark border border-primary/30 shadow-glow rounded-lg p-4 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary">person</span>
+</div>
+<p class="text-primary/80 text-xs font-medium uppercase tracking-wider mb-1">Your Rank</p>
+<p class="text-white text-2xl font-bold">#14,021</p>
+</div>
+</div>
+</div>
+<!-- Controls Bar -->
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-dark/50 backdrop-blur-sm p-2 rounded-xl border border-[#2d333b]">
+<!-- Tabs -->
+<div class="flex bg-[#121418] p-1 rounded-lg w-full md:w-auto">
+<button class="flex-1 md:flex-none px-6 py-2 rounded-md bg-surface-dark text-white shadow-sm text-sm font-bold transition-all">Global</button>
+<button class="flex-1 md:flex-none px-6 py-2 rounded-md text-gray-400 hover:text-white hover:bg-surface-dark/50 text-sm font-medium transition-all">Friends</button>
+<button class="flex-1 md:flex-none px-6 py-2 rounded-md text-gray-400 hover:text-white hover:bg-surface-dark/50 text-sm font-medium transition-all">My Leagues</button>
+</div>
+<!-- Filters -->
+<div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+<div class="relative group flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full md:w-64 bg-[#121418] border border-[#2d333b] text-white text-sm rounded-lg focus:ring-1 focus:ring-primary focus:border-primary block pl-10 p-2.5 placeholder-gray-500 transition-all" placeholder="Search friends..." type="text"/>
+</div>
+<div class="relative flex-none">
+<select class="w-full md:w-40 bg-[#121418] border border-[#2d333b] text-gray-300 text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 appearance-none cursor-pointer">
+<option>All Regions</option>
+<option>India</option>
+<option>Australia</option>
+<option>England</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Leaderboard Table Container -->
+<div class="flex-1 overflow-hidden relative rounded-xl border border-[#2d333b] bg-[#121418] flex flex-col shadow-2xl">
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 bg-[#1a1d21] border-b border-[#2d333b] text-xs font-bold text-gray-400 uppercase tracking-wider sticky top-0 z-10">
+<div class="col-span-2 md:col-span-1 text-center">Rank</div>
+<div class="col-span-6 md:col-span-5">User</div>
+<div class="col-span-2 md:col-span-3 text-right">Points</div>
+<div class="col-span-2 md:col-span-3 text-right pr-2">Movement</div>
+</div>
+<!-- Scrollable List -->
+<div class="overflow-y-auto custom-scrollbar flex-1 p-2 space-y-1">
+<!-- Rank 1 (Gold) -->
+<div class="group grid grid-cols-12 gap-4 px-4 py-3 items-center bg-gradient-to-r from-[#2d333b] to-[#23272F] rounded-lg border-l-4 border-yellow-400 hover:bg-[#2d333b] transition-all cursor-pointer">
+<div class="col-span-2 md:col-span-1 flex justify-center">
+<div class="size-8 bg-yellow-400/10 text-yellow-400 rounded-full flex items-center justify-center font-black border border-yellow-400/20">1</div>
+</div>
+<div class="col-span-6 md:col-span-5 flex items-center gap-3">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center border-2 border-yellow-400" data-alt="Avatar of ranking user 1" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBru1DyRd1bQcE6Pv_qpZ3lpbYhH296Vhd-Wb4gYOXkjsT5cTDOz2CVr-oqRIxRLC9KGr9TsA4axlagte-M48wCTGKElesg5EMEmzMXIn_Fy-t72rGRyVjJcUX8tFy2G98dHArjVKLeKNNz1C_gpFszV4Ri8hMKeTtcSeIpYHtE7CMFBej9BPNNXdjTESMlo-bwwDI0A6FAv43L1NsCsl7tTNqwFMgyE-qMBd45bn5XWLQxFGBBttsK3hDheHgpC-KfSXbnAtk9dP_J');"></div>
+<div class="absolute -bottom-1 -right-1 bg-yellow-400 text-black text-[10px] font-bold px-1.5 rounded-full border border-black">IND</div>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-bold text-sm group-hover:text-yellow-400 transition-colors">ViratFan_18</span>
+<span class="text-gray-500 text-xs">Royal Challengers</span>
+</div>
+</div>
+<div class="col-span-2 md:col-span-3 text-right">
+<span class="text-white font-bold font-mono text-lg">5,021</span>
+</div>
+<div class="col-span-2 md:col-span-3 flex justify-end items-center gap-1 text-primary font-medium text-sm pr-2">
+<span class="material-symbols-outlined text-sm">arrow_upward</span> <span>-</span>
+</div>
+</div>
+<!-- Rank 2 (Silver) -->
+<div class="group grid grid-cols-12 gap-4 px-4 py-3 items-center bg-surface-dark rounded-lg border-l-4 border-gray-300 hover:bg-[#2d333b] transition-all cursor-pointer">
+<div class="col-span-2 md:col-span-1 flex justify-center">
+<div class="size-8 bg-gray-300/10 text-gray-300 rounded-full flex items-center justify-center font-black border border-gray-300/20">2</div>
+</div>
+<div class="col-span-6 md:col-span-5 flex items-center gap-3">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center border-2 border-gray-300" data-alt="Avatar of ranking user 2" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB4NquSUspVRYrLnvBKRt_luEJXdt8MZXLPQx8O0csztLt8_GrrlQ1uG4sO7zWDAB__T8JJoOHu1ggInO-3CSCuhnJ4SeNtUPBAn_S4LJnX6i0K69n1ynjyGsNYCFgOYyU-hlSw2wFhIaP6UL05o-ZfCJxrB6fFwUw-qFUIyso_5HZEFfstyZLgTr0JiViDmUB0u8IDZJYvx_0h7lzAWhyAxH3uGsocFFZx_bgQO8oM3nni2FJcEAfdQXqAx1BN_OBgemmV2_Q5uzYN');"></div>
+<div class="absolute -bottom-1 -right-1 bg-gray-300 text-black text-[10px] font-bold px-1.5 rounded-full border border-black">AUS</div>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-bold text-sm group-hover:text-gray-300 transition-colors">AussieThunder</span>
+<span class="text-gray-500 text-xs">Melbourne Stars</span>
+</div>
+</div>
+<div class="col-span-2 md:col-span-3 text-right">
+<span class="text-white font-bold font-mono text-lg">4,988</span>
+</div>
+<div class="col-span-2 md:col-span-3 flex justify-end items-center gap-1 text-primary font-medium text-sm pr-2">
+<span class="material-symbols-outlined text-sm">arrow_upward</span> <span>1</span>
+</div>
+</div>
+<!-- Rank 3 (Bronze) -->
+<div class="group grid grid-cols-12 gap-4 px-4 py-3 items-center bg-surface-dark rounded-lg border-l-4 border-orange-400 hover:bg-[#2d333b] transition-all cursor-pointer">
+<div class="col-span-2 md:col-span-1 flex justify-center">
+<div class="size-8 bg-orange-400/10 text-orange-400 rounded-full flex items-center justify-center font-black border border-orange-400/20">3</div>
+</div>
+<div class="col-span-6 md:col-span-5 flex items-center gap-3">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center border-2 border-orange-400" data-alt="Avatar of ranking user 3" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDUViAhLiE71Qj3xRDQ0GblwrqEJGt_P0xIN0sqMRSGRXMHVUFUWwM5UEXFHMG1w0I4GLw2zYPZ2L8_iYnrtgwdDtOQXGd54PnKgZO2WVCPZpF0ZkN3XobB973ohpltyNOJmnL6APM6fh8ThDMttAL8mOLaJ-3mVgEZiUxNhhc3p6j3C4f7sOLqhRGvt1JJ6f6l_MSw2jfr1z5BXARZQN7iE8ZU36JuGn-e53qmC7P_UGaGavUTiNIHUOl63Ng8-ApIhp7Wx7K5gVO6');"></div>
+<div class="absolute -bottom-1 -right-1 bg-orange-400 text-black text-[10px] font-bold px-1.5 rounded-full border border-black">ENG</div>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-bold text-sm group-hover:text-orange-400 transition-colors">LondonSpirit_XL</span>
+<span class="text-gray-500 text-xs">The Oval Invincibles</span>
+</div>
+</div>
+<div class="col-span-2 md:col-span-3 text-right">
+<span class="text-white font-bold font-mono text-lg">4,950</span>
+</div>
+<div class="col-span-2 md:col-span-3 flex justify-end items-center gap-1 text-accent-red font-medium text-sm pr-2">
+<span class="material-symbols-outlined text-sm">arrow_downward</span> <span>1</span>
+</div>
+</div>
+<!-- Rank 4 -->
+<div class="group grid grid-cols-12 gap-4 px-4 py-3 items-center bg-surface-dark rounded-lg border border-transparent hover:border-[#2d333b] hover:bg-[#2d333b] transition-all cursor-pointer">
+<div class="col-span-2 md:col-span-1 flex justify-center">
+<span class="text-gray-400 font-bold">4</span>
+</div>
+<div class="col-span-6 md:col-span-5 flex items-center gap-3">
+<div class="size-9 rounded-full bg-cover bg-center opacity-80" data-alt="Avatar of ranking user 4" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCe_T5aZjzg04PjtkzzvRIb-uA2rs3uV6_2a0WaMy2eFyWiNtKefPb0XrSTCTbzMqkgwj3ZUp1uBTdqgFjCK3cmTWT4zxw_8_yjnwJLXA9x1OHDgtXrMRaWf2hczBNwto8eX4ayYMPz97nRJH1ThsKnUhdmZgD0v4OA-CObPXK3PcwHBRZRa3ygFb3anjYhN89wEXqj-4rhXsed-XdRO_vFNS_Jqu0fg3A1k0-plWgb2vMtgexVwUy6M_W3uU_WLYd39I4w-s0xxawK');"></div>
+<div class="flex flex-col">
+<span class="text-gray-200 font-semibold text-sm">CricMaster99</span>
+<span class="text-gray-600 text-xs">Mumbai Indians</span>
+</div>
+</div>
+<div class="col-span-2 md:col-span-3 text-right">
+<span class="text-gray-300 font-medium font-mono">4,820</span>
+</div>
+<div class="col-span-2 md:col-span-3 flex justify-end items-center gap-1 text-primary font-medium text-sm pr-2">
+<span class="material-symbols-outlined text-sm">arrow_upward</span> <span>12</span>
+</div>
+</div>
+<!-- Rank 5 -->
+<div class="group grid grid-cols-12 gap-4 px-4 py-3 items-center bg-surface-dark rounded-lg border border-transparent hover:border-[#2d333b] hover:bg-[#2d333b] transition-all cursor-pointer">
+<div class="col-span-2 md:col-span-1 flex justify-center">
+<span class="text-gray-400 font-bold">5</span>
+</div>
+<div class="col-span-6 md:col-span-5 flex items-center gap-3">
+<div class="size-9 rounded-full bg-cover bg-center opacity-80" data-alt="Avatar of ranking user 5" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBjZ7mtsIH16MXRYDmmWlllgvkMjrshARBluwJwmB-UBdHkSdZyX3UDlbQL7DN_dYtQopVxi6_026EM-2oHLJkEpDYw7FQd7otc0mxUPsuNSXVFq5XAAJPjVFzSW-o97WOM0NqyMWu50yTz4rEa_WcL3NUqJ_7ZTuqzB2vPXEgutg_bXT-ChCizkHsf1Gf8oK4ugFaZBEvBvMYvk3AtJqfF2LT-6-lOFkKiQ51t6t5iEgwCMSITbOwGTetMWhWhXYVvRvavXCgmIfTj');"></div>
+<div class="flex flex-col">
+<span class="text-gray-200 font-semibold text-sm">SpinKing_08</span>
+<span class="text-gray-600 text-xs">Chennai Super Kings</span>
+</div>
+</div>
+<div class="col-span-2 md:col-span-3 text-right">
+<span class="text-gray-300 font-medium font-mono">4,795</span>
+</div>
+<div class="col-span-2 md:col-span-3 flex justify-end items-center gap-1 text-gray-500 font-medium text-sm pr-2">
+<span>-</span>
+</div>
+</div>
+<!-- Rank 6 -->
+<div class="group grid grid-cols-12 gap-4 px-4 py-3 items-center bg-surface-dark rounded-lg border border-transparent hover:border-[#2d333b] hover:bg-[#2d333b] transition-all cursor-pointer">
+<div class="col-span-2 md:col-span-1 flex justify-center">
+<span class="text-gray-400 font-bold">6</span>
+</div>
+<div class="col-span-6 md:col-span-5 flex items-center gap-3">
+<div class="size-9 rounded-full bg-cover bg-center opacity-80" data-alt="Avatar of ranking user 6" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBHj8VyPyJGf5ne0PNbB-tqRCWKmaj5nrQ7bs_xU_ddyupJQF34Xern7g3ZBmLyCDJGBZHgAscdzluQs78dD_VMWZmQFIA_7Wo444MIl1stooHdpAuAf_KbAQG_5wPhigoO1XiI4vLSaEUtVHonU-skbUpTdg0Q_ro1p6amObldOrv6_pFSnAv9eEQSz5pQEB7tzHttNY8MuQi0E6Egj-4oOSYU94TdSWXFoiUWZZd9z1iXn81tHe28V3MjHchZoJo_qfxWXsh9Bd7v');"></div>
+<div class="flex flex-col">
+<span class="text-gray-200 font-semibold text-sm">YorkerQueen</span>
+<span class="text-gray-600 text-xs">Sydney Sixers</span>
+</div>
+</div>
+<div class="col-span-2 md:col-span-3 text-right">
+<span class="text-gray-300 font-medium font-mono">4,750</span>
+</div>
+<div class="col-span-2 md:col-span-3 flex justify-end items-center gap-1 text-accent-red font-medium text-sm pr-2">
+<span class="material-symbols-outlined text-sm">arrow_downward</span> <span>3</span>
+</div>
+</div>
+<!-- Rank 7 -->
+<div class="group grid grid-cols-12 gap-4 px-4 py-3 items-center bg-surface-dark rounded-lg border border-transparent hover:border-[#2d333b] hover:bg-[#2d333b] transition-all cursor-pointer">
+<div class="col-span-2 md:col-span-1 flex justify-center">
+<span class="text-gray-400 font-bold">7</span>
+</div>
+<div class="col-span-6 md:col-span-5 flex items-center gap-3">
+<div class="size-9 rounded-full bg-cover bg-center opacity-80" data-alt="Avatar of ranking user 7" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCiv1TBiSPaOZk4l3AlX4txKaplMQAGR0i4b0G2_aE36-3W0_8oqvVpRq1pAcfJqVdv78F_AS0JE3IQb4zNAvmjbxFPKC62uA8hiHdeQB-gTHtgGfGmUrwK6zsli59eHflpWmye-p4k1Rv3mWvkgQTkrik4a8miDa395R3_xH9dMfnnbjmVDOyfGaJmu3izAlgU_-psyFi0IjS81cTyp-dbgHwU_tFUFbK3zCQ1Jg_lDiStYxwJLH5LJVD6rczdJhIZZ5jcFntqbhqS');"></div>
+<div class="flex flex-col">
+<span class="text-gray-200 font-semibold text-sm">Hitman45</span>
+<span class="text-gray-600 text-xs">Mumbai Indians</span>
+</div>
+</div>
+<div class="col-span-2 md:col-span-3 text-right">
+<span class="text-gray-300 font-medium font-mono">4,710</span>
+</div>
+<div class="col-span-2 md:col-span-3 flex justify-end items-center gap-1 text-primary font-medium text-sm pr-2">
+<span class="material-symbols-outlined text-sm">arrow_upward</span> <span>5</span>
+</div>
+</div>
+<!-- Rank 8 -->
+<div class="group grid grid-cols-12 gap-4 px-4 py-3 items-center bg-surface-dark rounded-lg border border-transparent hover:border-[#2d333b] hover:bg-[#2d333b] transition-all cursor-pointer">
+<div class="col-span-2 md:col-span-1 flex justify-center">
+<span class="text-gray-400 font-bold">8</span>
+</div>
+<div class="col-span-6 md:col-span-5 flex items-center gap-3">
+<div class="size-9 rounded-full bg-cover bg-center opacity-80" data-alt="Avatar of ranking user 8" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC5hUescSeLYg1S0y_gDKZbjVM06RyiEwW_mkEMHMqWV71NAeWJBY_fkXkTDKmOdc-z8d1jofKg9UrylL01XGX65rGGoDvHOroPWV37JlEHkqLnfKNLXdvldDdlGpaPD8l4_c1NFCTvEEVJhibCT81SM07IqWmax2fOn5Yhcltq_JtN_uhspMOSCZdWOPi3178EeswAuMs7hsQkd2OFFLt4H3Sp1RG7djTExEdKrHVNrOhGMw79GXN7cYrAUhwAkoexAIz4WVtDlVf7');"></div>
+<div class="flex flex-col">
+<span class="text-gray-200 font-semibold text-sm">CoverDrive_Class</span>
+<span class="text-gray-600 text-xs">Lahore Qalandars</span>
+</div>
+</div>
+<div class="col-span-2 md:col-span-3 text-right">
+<span class="text-gray-300 font-medium font-mono">4,680</span>
+</div>
+<div class="col-span-2 md:col-span-3 flex justify-end items-center gap-1 text-primary font-medium text-sm pr-2">
+<span class="material-symbols-outlined text-sm">arrow_upward</span> <span>2</span>
+</div>
+</div>
+<!-- Spacer to ensure sticky footer doesn't hide last items -->
+<div class="h-16"></div>
+</div>
+<!-- Sticky User Rank Row -->
+<div class="absolute bottom-4 left-4 right-4 shadow-2xl z-20">
+<div class="grid grid-cols-12 gap-4 px-4 py-3 items-center bg-[#17191c]/90 backdrop-blur-md rounded-lg border border-primary/40 shadow-glow relative overflow-hidden">
+<!-- Decorative glow -->
+<div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
+<div class="col-span-2 md:col-span-1 flex justify-center z-10">
+<span class="text-white font-black text-lg">14K</span>
+</div>
+<div class="col-span-6 md:col-span-5 flex items-center gap-3 z-10">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center border-2 border-primary" data-alt="User current profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA8oo9Wdeq5buYTnO32Zjnz3j3-mm3B2VNzTga0jNuaxMHshUj3nySLY22OtZYBSexI7B2MmAbOCIxtQBf6L6ruu3cVaXMTAjR2JAcE1NYS--aw0P6XZyxBrUt2rqoLd6Hsfbq6h8xZErl6fIV9WEqscuP4MgaLUNqH8obfBmoHYlOsXok3750qK0t7m00o0cZx_sZJajY7v0cYBxL3vCbxgUVcl1k8gKAdXXT5MuCmdraRJA-nBXuAKPDzIFPH3Tc45yh4CgCKPvWH');"></div>
+<div class="absolute -bottom-1 -right-1 bg-primary text-[#17191c] text-[10px] font-bold px-1.5 rounded-full border border-[#17191c]">YOU</div>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-bold text-sm">Rahul K.</span>
+<span class="text-primary/80 text-xs">Delhi Capitals</span>
+</div>
+</div>
+<div class="col-span-2 md:col-span-3 text-right z-10">
+<span class="text-primary font-bold font-mono text-lg">1,240</span>
+</div>
+<div class="col-span-2 md:col-span-3 flex justify-end items-center gap-1 text-primary font-medium text-sm pr-2 z-10">
+<span class="material-symbols-outlined text-sm">arrow_upward</span> <span>45</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

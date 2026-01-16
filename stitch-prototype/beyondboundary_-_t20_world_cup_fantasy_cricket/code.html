@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BeyondBoundary - T20 World Cup Fantasy Cricket</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Noto+Sans:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec5b",
+                        "primary-dark": "#0fb645",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#102216",
+                        "surface-dark": "#1a3325",
+                        "surface-dark-hover": "#23482f",
+                        "border-dark": "#2a5436",
+                        "text-secondary": "#92c9a4",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    backgroundImage: {
+                        'pitch-gradient': 'linear-gradient(180deg, #1f4229 0%, #285e3a 50%, #1f4229 100%)',
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            display: none; /* Hidden by default per Screen 1 style, but adjusted for others */
+        }
+        .custom-scroll::-webkit-scrollbar {
+             display: block;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        ::-webkit-scrollbar-track {
+            background: #102216;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #23482f;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #13ec5b;
+        }
+    </style>
+
+    <!-- React Libraries -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white overflow-x-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate } = ReactRouterDOM;
+
+        // --- Reusable Components ---
+
+        const Logo = () => (
+            <div className="size-8 text-primary">
+                <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <g clipPath="url(#clip0_6_543)">
+                        <path d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z" fill="currentColor"></path>
+                        <path clipRule="evenodd" d="M7.24189 26.4066C7.31369 26.4411 7.64204 26.5637 8.52504 26.3738C9.59462 26.1438 11.0343 25.5311 12.7183 24.4963C14.7583 23.2426 17.0256 21.4503 19.238 19.238C21.4503 17.0256 23.2426 14.7583 24.4963 12.7183C25.5311 11.0343 26.1438 9.59463 26.3738 8.52504C26.5637 7.64204 26.4411 7.31369 26.4066 7.24189C26.345 7.21246 26.143 7.14535 25.6664 7.1918C24.9745 7.25925 23.9954 7.5498 22.7699 8.14278C20.3369 9.32007 17.3369 11.4915 14.4142 14.4142C11.4915 17.3369 9.32007 20.3369 8.14278 22.7699C7.5498 23.9954 7.25925 24.9745 7.1918 25.6664C7.14534 26.143 7.21246 26.345 7.24189 26.4066ZM29.9001 10.7285C29.4519 12.0322 28.7617 13.4172 27.9042 14.8126C26.465 17.1544 24.4686 19.6641 22.0664 22.0664C19.6641 24.4686 17.1544 26.465 14.8126 27.9042C13.4172 28.7617 12.0322 29.4519 10.7285 29.9001L21.5754 40.747C21.6001 40.7606 21.8995 40.931 22.8729 40.7217C23.9424 40.4916 25.3821 39.879 27.0661 38.8441C29.1062 37.5904 31.3734 35.7982 33.5858 33.5858C35.7982 31.3734 37.5904 29.1062 38.8441 27.0661C39.879 25.3821 40.4916 23.9425 40.7216 22.8729C40.931 21.8995 40.7606 21.6001 40.747 21.5754L29.9001 10.7285ZM29.2403 4.41187L43.5881 18.7597C44.9757 20.1473 44.9743 22.1235 44.6322 23.7139C44.2714 25.3919 43.4158 27.2666 42.252 29.1604C40.8128 31.5022 38.8165 34.012 36.4142 36.4142C34.012 38.8165 31.5022 40.8128 29.1604 42.252C27.2666 43.4158 25.3919 44.2714 23.7139 44.6322C22.1235 44.9743 20.1473 44.9757 18.7597 43.5881L4.41187 29.2403C3.29027 28.1187 3.08209 26.5973 3.21067 25.2783C3.34099 23.9415 3.8369 22.4852 4.54214 21.0277C5.96129 18.0948 8.43335 14.7382 11.5858 11.5858C14.7382 8.43335 18.0948 5.9613 21.0277 4.54214C22.4852 3.8369 23.9415 3.34099 25.2783 3.21067C26.5973 3.08209 28.1187 3.29028 29.2403 4.41187Z" fill="currentColor" fillRule="evenodd"></path>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_6_543"><rect fill="white" height="48" width="48"></rect></clipPath>
+                    </defs>
+                </svg>
+            </div>
+        );
+
+        // --- Screens ---
+
+        const HomePage = () => {
+            const navigate = useNavigate();
+
+            return (
+                <div className="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+                    <header className="sticky top-0 z-50 flex items-center justify-between border-b border-solid border-[#e6e8eb] dark:border-[#23482f] bg-white dark:bg-[#112217] px-4 py-3 md:px-10">
+                        <div className="flex items-center gap-4 text-[#111418] dark:text-white cursor-pointer" onClick={() => navigate('/')}>
+                            <Logo />
+                            <h2 className="text-xl font-bold leading-tight tracking-[-0.015em]">BeyondBoundary</h2>
+                        </div>
+                        <div className="hidden md:flex flex-1 justify-end gap-8">
+                            <div className="flex items-center gap-9">
+                                <Link className="text-sm font-medium leading-normal hover:text-primary transition-colors" to="/">Home</Link>
+                                <a className="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Leagues</a>
+                                <a className="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Stats</a>
+                                <a className="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Rules</a>
+                            </div>
+                            <div className="flex gap-2">
+                                <Link to="/login" className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#23482f] text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[#2c5a3b] transition-colors">
+                                    <span className="truncate">Log In</span>
+                                </Link>
+                                <Link to="/signup" className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-[#112217] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[#34f575] transition-colors">
+                                    <span className="truncate">Sign Up</span>
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="flex md:hidden text-white">
+                            <span className="material-symbols-outlined cursor-pointer">menu</span>
+                        </div>
+                    </header>
+                    <div className="w-full bg-[#0a160e] border-b border-[#23482f] overflow-hidden py-2">
+                        <div className="flex gap-8 whitespace-nowrap animate-[marquee_20s_linear_infinite] px-4">
+                            <div className="flex items-center gap-2 text-xs font-medium text-gray-400">
+                                <span className="text-white">LIVE:</span> IND 145/3 (15.2) vs PAK <span className="text-primary">•</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-xs font-medium text-gray-400">
+                                <span className="text-primary">UPCOMING:</span> AUS vs ENG (Starts in 2h 15m) <span className="text-primary">•</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-xs font-medium text-gray-400">
+                                <span className="text-white">RESULT:</span> NZ won by 24 runs vs SA <span className="text-primary">•</span>
+                            </div>
+                        </div>
+                    </div>
+                    <main className="flex-1 flex flex-col items-center">
+                        <div className="w-full max-w-7xl px-4 md:px-10 py-6 md:py-10">
+                            <div className="relative w-full rounded-2xl overflow-hidden min-h-[520px] md:min-h-[600px] flex items-center bg-[#112217]">
+                                <div className="absolute inset-0 z-0">
+                                    <div className="absolute inset-0 bg-gradient-to-r from-background-dark via-background-dark/80 to-transparent z-10"></div>
+                                    <img alt="Cricket stadium" className="w-full h-full object-cover object-center opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWeotEFvnM5E-8cdKgBfnxKgus8nkjBS81geY202ZAY1sP79YVDLh0LEJmf_xxd7mh8Of4r4Iwfp_suhz7jE6ChYXzTMZrVVtW2lQoJranS_-TeFH3gtxShF-LDLuuhfeDjcXUmBXxFsZBJY1HPrk_OBMxSvIWVogwuXSXmSW1hpJ2ymbGYX8H0y6klG9Dle8wW7DPlPudb01eQrLRyGk8BXWkWtOR4PlRYs3mrbhtb4eQQV4ZlQaG8rKd70hyPtfSq9QVcFkb6UyG"/>
+                                </div>
+                                <div className="relative z-20 flex flex-col gap-6 max-w-2xl px-6 md:px-12 py-10">
+                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 border border-primary/30 w-fit">
+                                        <span className="material-symbols-outlined text-primary text-sm">trophy</span>
+                                        <span className="text-primary text-xs font-bold uppercase tracking-wider">Official T20 Fantasy</span>
+                                    </div>
+                                    <h1 className="text-4xl md:text-6xl font-black text-white leading-[1.1] tracking-tight">
+                                        Build Your <span className="text-primary">Dream XI</span>.<br/>
+                                        Conquer the World.
+                                    </h1>
+                                    <p className="text-gray-300 text-lg md:text-xl font-light leading-relaxed max-w-lg">
+                                        The ultimate fantasy cricket experience is here. Compete with millions of managers globally for the T20 World Cup.
+                                    </p>
+                                    <div className="flex flex-col sm:flex-row gap-4 mt-4">
+                                        <button onClick={() => navigate('/signup')} className="flex items-center justify-center gap-2 bg-primary hover:bg-[#34f575] text-[#112217] text-base font-bold h-12 px-8 rounded-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(19,236,91,0.3)]">
+                                            Play for Free
+                                            <span className="material-symbols-outlined text-xl">arrow_forward</span>
+                                        </button>
+                                        <button className="flex items-center justify-center gap-2 bg-[#23482f] hover:bg-[#2c5a3b] text-white border border-[#326744] text-base font-bold h-12 px-8 rounded-lg transition-colors">
+                                            Start a League
+                                        </button>
+                                    </div>
+                                    <div className="flex items-center gap-4 mt-6 pt-6 border-t border-white/10">
+                                        <div className="flex -space-x-3">
+                                            <img alt="User avatar 1" className="w-8 h-8 rounded-full border-2 border-background-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAruwBNIa5pZX4qGbORvMoiRNaZPO_b5JKHixf45rRyyjUDD7MIXWcjr5gXUU3bsOizRos3WWolQ_GNdVSJI9GfVicZx-MMxSjeEgPvGbHeFMKfhXrBJjU4ObQFmGwewahRWMeNCrn4owT4FfYT3Br4NiNpeTAgFiuEbQsA6PtBwLNa6CLrRR9um_50-rn0810zE-7eX_ZQAmsoZOzePjvHtu0I1Bw1-JwSlO0XSjMZzCwFL_xuhtVOa_P-105vj6h4cKM-ZO8m_ZN0"/>
+                                            <img alt="User avatar 2" className="w-8 h-8 rounded-full border-2 border-background-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_O4Ed-l3u7kc6FbJOjp5XVGT91yTcUlRln3Cfeb4pEMkK_UIiG-A9W1KwjPtQTC-FXtHCzgcfZQirLfFkYV0c3EReM736APuU3kD1mnr-dwLzJsydE2jEKmEuOrvZiYRb0Lr6sVaQRjmwqqAvftlqrOHvsXHUESZe5SlQbtwK7xvYA-E119I47CKD2XX19EYtCinKb2vqiwcIl6GsCXSp8qyHCWSAWzTIHqGziH32qBCbURa1QTQXaPqr-EarhSQpoQTZEuuw7fcp"/>
+                                            <img alt="User avatar 3" className="w-8 h-8 rounded-full border-2 border-background-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI4mSm0EWbp5IdJhNz3rMOVZQ1arPtwLhIXor1s5M1AM0up-F3d9qIDL2YG21ez3hBMJNQBTcjEsGXje8k4eR9UWfs5IszTCy1Qn2iI-E12RWA5OHPKbxdJdKXqW6Se3HCYEtKPB6LAIQFddjp7cQjANsRhrl4fuG_zbqrUgSCfmtzAGYbXQDYJEBE1lE_q6xrm9zcAQDeVvm0kWtACwtLlmF92gvRz_2YYagZ2NoFFbI4wUhAGS9IYF68GFmuYKZfbniXMqouuKQw"/>
+                                        </div>
+                                        <p className="text-sm text-gray-400"><span className="text-white font-bold">2.4M+</span> Managers Joined</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="w-full max-w-7xl px-4 md:px-10 py-8">
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-2xl font-bold text-[#111418] dark:text-white flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-primary">calendar_month</span>
+                                    Gameweek 4 Fixtures
+                                </h2>
+                                <a className="text-sm font-bold text-primary hover:underline" href="#">View Full Schedule</a>
+                            </div>
+                            <div className="flex overflow-x-auto gap-4 pb-4 no-scrollbar snap-x snap-mandatory">
+                                <div className="min-w-[280px] md:min-w-[320px] snap-center bg-white dark:bg-[#193322] border border-[#e6e8eb] dark:border-[#326744] rounded-xl p-5 hover:border-primary transition-colors cursor-pointer group">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <span className="text-xs font-bold text-gray-500 dark:text-[#92c9a4] uppercase">T20 World Cup • Group A</span>
+                                        <span className="px-2 py-1 rounded bg-red-500/10 text-red-500 text-xs font-bold border border-red-500/20">LIVE</span>
+                                    </div>
+                                    <div className="flex justify-between items-center mb-4">
+                                        <div className="flex flex-col items-center gap-2">
+                                            <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-black/20 flex items-center justify-center text-xl overflow-hidden shadow-sm">🇮🇳</div>
+                                            <span className="font-bold text-lg dark:text-white">IND</span>
+                                        </div>
+                                        <div className="flex flex-col items-center">
+                                            <span className="text-2xl font-black text-[#111418] dark:text-white">145/3</span>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">15.2 Ov</span>
+                                            <span className="mt-2 text-xs font-bold text-primary">v</span>
+                                        </div>
+                                        <div className="flex flex-col items-center gap-2">
+                                            <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-black/20 flex items-center justify-center text-xl overflow-hidden shadow-sm">🇵🇰</div>
+                                            <span className="font-bold text-lg dark:text-white">PAK</span>
+                                        </div>
+                                    </div>
+                                    <div className="text-center">
+                                        <p className="text-xs text-gray-500 dark:text-[#92c9a4]">Kohli 56* (34) • Afridi 2/24</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <footer className="bg-white dark:bg-[#0a160e] border-t border-[#e6e8eb] dark:border-[#23482f] pt-16 pb-8 px-4 md:px-10">
+                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
+                            <div className="flex flex-col gap-4 max-w-xs">
+                                <div className="flex items-center gap-2 text-[#111418] dark:text-white">
+                                    <div className="size-6 text-primary"><Logo /></div>
+                                    <h2 className="text-lg font-bold leading-tight tracking-[-0.015em]">BeyondBoundary</h2>
+                                </div>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">The world's biggest fantasy cricket game. Built for fans, by fans.</p>
+                            </div>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 flex-1">
+                                <div className="flex flex-col gap-3">
+                                    <h4 className="font-bold text-white">Game</h4>
+                                    <a className="text-sm text-gray-500 hover:text-primary" href="#">Rules</a>
+                                </div>
+                                <div className="flex flex-col gap-3">
+                                    <h4 className="font-bold text-white">Community</h4>
+                                    <a className="text-sm text-gray-500 hover:text-primary" href="#">Leagues</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-[#23482f] flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 dark:text-gray-500">
+                            <p>© 2024 BeyondBoundary Fantasy Cricket. All rights reserved.</p>
+                            <p className="mt-2 md:mt-0">Not associated with ICC or any cricket boards.</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        const SignupPage = () => {
+            const navigate = useNavigate();
+
+            return (
+                <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display min-h-screen flex flex-col overflow-x-hidden">
+                    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark px-6 lg:px-10 py-4 bg-background-dark z-20 sticky top-0">
+                        <div className="flex items-center gap-4 text-white cursor-pointer" onClick={() => navigate('/')}>
+                             <Logo />
+                            <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em]">BeyondBoundary</h2>
+                        </div>
+                        <div className="hidden md:flex flex-1 justify-end gap-8">
+                            <div className="flex items-center gap-9">
+                                <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" to="/">Home</Link>
+                                <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" to="/login">Login</Link>
+                            </div>
+                            <button className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[#0fd24e] transition-colors">
+                                <span className="truncate">Sign Up</span>
+                            </button>
+                        </div>
+                        <div className="md:hidden text-white cursor-pointer">
+                            <span className="material-symbols-outlined">menu</span>
+                        </div>
+                    </header>
+                    <main className="flex-grow flex flex-col justify-center">
+                        <div className="layout-container w-full h-full flex flex-col lg:flex-row">
+                            <div className="lg:w-1/2 flex flex-col justify-center px-6 md:px-16 py-12 bg-background-dark relative overflow-hidden group">
+                                <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+                                <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
+                                <div className="relative z-10 max-w-lg">
+                                    <div className="mb-8">
+                                        <span className="inline-block px-3 py-1 bg-primary/20 text-primary text-xs font-bold uppercase tracking-wider rounded-full mb-4 border border-primary/20">Official Fantasy League</span>
+                                        <h1 className="text-white text-5xl md:text-6xl font-black leading-tight tracking-[-0.033em] mb-6">
+                                            Start Your <br/>
+                                            <span className="text-primary">Manager Career</span>
+                                        </h1>
+                                        <p className="text-text-secondary text-lg font-normal leading-relaxed mb-8">
+                                            Build your dream team for the T20 World Cup. Compete with friends, track live scores, and win exclusive prizes every match day.
+                                        </p>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className="size-10 rounded-full bg-surface-dark border border-border-dark flex items-center justify-center text-primary">
+                                                    <span className="material-symbols-outlined">trophy</span>
+                                                </div>
+                                                <span className="text-white text-sm font-medium">Weekly Prizes</span>
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                                <div className="size-10 rounded-full bg-surface-dark border border-border-dark flex items-center justify-center text-primary">
+                                                    <span className="material-symbols-outlined">analytics</span>
+                                                </div>
+                                                <span className="text-white text-sm font-medium">Live Stats</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="lg:w-1/2 flex flex-col justify-center items-center px-4 md:px-16 py-12 bg-surface-dark/30 border-l border-border-dark relative">
+                                <div className="w-full max-w-md">
+                                    <div className="mb-8">
+                                        <h2 className="text-white text-2xl font-bold mb-2">Create Account</h2>
+                                        <p className="text-text-secondary text-sm">Join thousands of managers around the world.</p>
+                                    </div>
+                                    <form className="flex flex-col gap-5" onSubmit={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
+                                        <div className="flex flex-col gap-2">
+                                            <label className="text-white text-sm font-medium">Username</label>
+                                            <div className="relative flex items-center">
+                                                <span className="material-symbols-outlined absolute left-4 text-text-secondary text-[20px]">person</span>
+                                                <input className="w-full h-12 rounded-lg bg-surface-dark border border-border-dark text-white placeholder:text-text-secondary/50 pl-11 pr-4 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all font-normal" placeholder="Enter your manager name" type="text"/>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col gap-2">
+                                            <label className="text-white text-sm font-medium">Email Address</label>
+                                            <div className="relative flex items-center">
+                                                <span className="material-symbols-outlined absolute left-4 text-text-secondary text-[20px]">mail</span>
+                                                <input className="w-full h-12 rounded-lg bg-surface-dark border border-border-dark text-white placeholder:text-text-secondary/50 pl-11 pr-4 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all font-normal" placeholder="name@example.com" type="email"/>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col gap-2">
+                                            <label className="text-white text-sm font-medium">Password</label>
+                                            <div className="relative flex items-center">
+                                                <span className="material-symbols-outlined absolute left-4 text-text-secondary text-[20px]">lock</span>
+                                                <input className="w-full h-12 rounded-lg bg-surface-dark border border-border-dark text-white placeholder:text-text-secondary/50 pl-11 pr-12 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all font-normal" placeholder="Create a strong password" type="password"/>
+                                            </div>
+                                        </div>
+                                        <button className="mt-2 flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em] hover:bg-[#0fd24e] hover:shadow-[0_0_20px_rgba(19,236,91,0.3)] transition-all" type="submit">
+                                            Create Account
+                                        </button>
+                                    </form>
+                                    <div className="mt-8 text-center">
+                                        <p className="text-text-secondary text-sm">
+                                            Already have a team?
+                                            <Link className="text-primary font-bold hover:underline decoration-2 underline-offset-4 ml-1" to="/login">Log in here</Link>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        }
+
+        const LoginPage = () => {
+            const navigate = useNavigate();
+
+            return (
+                <div className="bg-background-light dark:bg-background-dark font-display h-screen flex flex-col">
+                    <div className="relative flex h-screen w-full flex-col overflow-hidden">
+                        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
+                            <div className="absolute right-0 top-0 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[100px] transform translate-x-1/3 -translate-y-1/3"></div>
+                            <div className="absolute left-0 bottom-0 h-[300px] w-[300px] rounded-full bg-primary/10 blur-[80px] transform -translate-x-1/3 translate-y-1/3"></div>
+                        </div>
+                        <header className="relative z-10 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-surface-highlight border-[#23482f] px-6 lg:px-10 py-4 bg-background-dark/80 backdrop-blur-md">
+                            <div className="flex items-center gap-3 text-white cursor-pointer" onClick={() => navigate('/')}>
+                                <Logo />
+                                <h2 className="text-white text-xl font-bold leading-tight tracking-tight">BeyondBoundary</h2>
+                            </div>
+                            <div className="hidden sm:flex text-sm font-medium text-text-secondary">
+                                Not a member yet? <Link className="ml-2 text-primary hover:underline" to="/signup">Sign up now</Link>
+                            </div>
+                        </header>
+                        <main className="relative z-10 flex flex-1 items-center justify-center p-4">
+                            <div className="w-full max-w-[480px] flex-col rounded-2xl bg-surface-dark border border-[#326744] p-6 shadow-2xl sm:p-10">
+                                <div className="mb-8 text-center">
+                                    <h1 className="text-white text-3xl font-bold leading-tight mb-2">Enter the Arena</h1>
+                                    <p className="text-text-secondary text-base">Sign in to manage your T20 squad.</p>
+                                </div>
+                                <form className="flex flex-col gap-5" onSubmit={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
+                                    <div className="flex flex-col gap-2">
+                                        <label className="text-white text-sm font-medium" htmlFor="email">Email or Username</label>
+                                        <div className="relative flex items-center">
+                                            <input className="form-input flex w-full rounded-lg border border-[#326744] bg-[#112217] text-white placeholder:text-[#92c9a4] focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 text-base font-normal leading-normal transition-colors" id="email" placeholder="Enter your email or username" type="text"/>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex justify-between items-baseline">
+                                            <label className="text-white text-sm font-medium" htmlFor="password">Password</label>
+                                            <a className="text-xs font-medium text-primary hover:text-primary/80 transition-colors" href="#">Forgot Password?</a>
+                                        </div>
+                                        <div className="relative flex items-center">
+                                            <input className="form-input flex w-full rounded-lg border border-[#326744] bg-[#112217] text-white placeholder:text-[#92c9a4] focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 pr-12 text-base font-normal leading-normal transition-colors" id="password" placeholder="Enter your password" type="password"/>
+                                        </div>
+                                    </div>
+                                    <button className="mt-2 flex h-12 w-full items-center justify-center rounded-lg bg-primary text-background-dark text-base font-bold hover:bg-[#0fdc53] active:scale-[0.98] transition-all duration-200">
+                                        Log In
+                                    </button>
+                                </form>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+            );
+        }
+
+        const DashboardPage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="bg-background-light dark:bg-background-dark min-h-screen flex flex-col overflow-x-hidden text-slate-900 dark:text-white">
+                    <header className="sticky top-0 z-50 w-full border-b border-surface-dark-hover bg-background-dark/95 backdrop-blur-sm">
+                        <div className="px-4 md:px-10 lg:px-40 py-3 flex items-center justify-between">
+                            <div className="flex items-center gap-4 text-white cursor-pointer" onClick={() => navigate('/')}>
+                                <div className="size-8 text-primary flex items-center justify-center">
+                                    <span className="material-symbols-outlined" style={{ fontSize: '32px' }}>sports_cricket</span>
+                                </div>
+                                <h2 className="text-white text-xl font-bold leading-tight tracking-tight hidden md:block">BeyondBoundary</h2>
+                            </div>
+                            <nav className="hidden lg:flex items-center gap-8">
+                                <a className="text-primary text-sm font-bold border-b-2 border-primary pb-0.5" href="#">Dashboard</a>
+                                <a className="text-white/80 hover:text-white text-sm font-medium transition-colors" href="#">My Team</a>
+                                <a className="text-white/80 hover:text-white text-sm font-medium transition-colors" href="#">Transfers</a>
+                                <a className="text-white/80 hover:text-white text-sm font-medium transition-colors" href="#">Leagues</a>
+                            </nav>
+                            <div className="flex items-center gap-3">
+                                <button className="flex items-center justify-center size-10 rounded-full bg-surface-dark hover:bg-surface-dark-hover text-white transition-colors">
+                                    <span className="material-symbols-outlined">notifications</span>
+                                </button>
+                                <div onClick={() => navigate('/login')} className="size-10 rounded-full bg-center bg-cover border-2 border-surface-dark-hover cursor-pointer" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDl81oC1AG2XYJzp9u7BBLHJzy2TZ1hMuBIEu15kDXdo2fy0gO7t7rVldJcgQU7HZ9VplwzZJ7i5sgVqL3eGVodRwyjAyCx4RRv1mIVIizsEnJo_X_m0iexhzkPyZIpLrSwSLXA9ukHqBQyWEWns8yc6KptYMWxuP-IfrWd5DdUBnh3fJV3Cn2iE_amyt0gjVCk5FBgUbNnLFX9SKxLDABT9XWO-5XzRibmzFAfn6UuiQ7m_P9vJtfnOHyxORkS843TrrSpdIJmeZy7')" }}></div>
+                            </div>
+                        </div>
+                    </header>
+                    <main className="flex-1 flex flex-col w-full max-w-[1440px] mx-auto px-4 md:px-10 lg:px-40 py-8 gap-8">
+                        <section className="rounded-2xl overflow-hidden relative min-h-[280px] flex flex-col justify-center p-8 md:p-12 shadow-2xl">
+                            <div className="absolute inset-0 bg-cover bg-center z-0" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBhe92YhOINkPJ3TJT0eLmZW9LuS2AvhalZAf2OpVEzfwQ-weq0YUWDl16V1ktJMq21k29VN_lBB1tRWOilEnU6AXTWQspKP5tpxqcG8KZUjNQ0_XrE9wnI2cHvko6ltJF8TEG5xqQuKw_vWvq1tkPngpfD-lhpePJr_zQk-XkuptB3L8WgVRH0wvNdMrVuGrZHCVvRHTSf-lExGXRmKlAX-UjdN7iZEr5I1MDhxJVldZKHu5zhVDViznRtAanvyuPhJ9REHBM1PxZq')" }}></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-background-dark via-background-dark/90 to-transparent z-10"></div>
+                            <div className="relative z-20 flex flex-col gap-4 max-w-2xl">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 border border-primary/30 w-fit backdrop-blur-md">
+                                    <span className="size-2 rounded-full bg-primary animate-pulse"></span>
+                                    <span className="text-primary text-xs font-bold uppercase tracking-wider">Gameweek 5 Live</span>
+                                </div>
+                                <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight">
+                                    Welcome back, <span className="text-primary">Manager!</span>
+                                </h1>
+                                <div className="flex flex-wrap gap-x-6 gap-y-2 text-gray-300 font-medium text-sm md:text-base">
+                                    <div className="flex items-center gap-2">
+                                        <span className="material-symbols-outlined text-primary text-lg">groups</span>
+                                        Team: Super Sixers
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="material-symbols-outlined text-primary text-lg">scoreboard</span>
+                                        Total Points: 320
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section className="bg-surface-dark border border-white/5 rounded-xl p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg">
+                            <div className="flex items-center gap-3">
+                                <div className="p-3 bg-red-500/10 rounded-lg text-red-500">
+                                    <span className="material-symbols-outlined">timer</span>
+                                </div>
+                                <div>
+                                    <h3 className="text-white font-bold text-lg">Gameweek 6 Deadline</h3>
+                                    <p className="text-gray-400 text-sm">Make your transfers before the first match starts.</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-4">
+                                <div className="flex flex-col items-center gap-1 min-w-[60px]">
+                                    <div className="w-full bg-background-dark rounded border border-white/10 py-2 text-center text-xl font-bold font-mono text-primary">02</div>
+                                    <span className="text-xs text-gray-500 font-medium uppercase">Days</span>
+                                </div>
+                                <div className="flex flex-col items-center gap-1 min-w-[60px]">
+                                    <div className="w-full bg-background-dark rounded border border-white/10 py-2 text-center text-xl font-bold font-mono text-primary">14</div>
+                                    <span className="text-xs text-gray-500 font-medium uppercase">Hours</span>
+                                </div>
+                            </div>
+                        </section>
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                            <div className="lg:col-span-8 flex flex-col gap-6">
+                                <div className="bg-surface-dark rounded-xl border border-white/5 overflow-hidden flex flex-col h-full min-h-[600px]">
+                                    <div className="px-6 py-4 border-b border-white/5 flex justify-between items-center">
+                                        <h3 className="text-white font-bold text-lg">My Team</h3>
+                                        <div className="flex gap-2">
+                                            <button className="px-3 py-1.5 bg-background-dark hover:bg-surface-dark-hover border border-white/10 rounded text-xs font-bold text-white transition-colors">List View</button>
+                                            <button className="px-3 py-1.5 bg-primary text-background-dark rounded text-xs font-bold transition-colors">Pitch View</button>
+                                        </div>
+                                    </div>
+                                    <div className="relative flex-1 bg-pitch-gradient p-6 flex flex-col justify-between items-center" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/grass.png')" }}>
+                                        <div className="absolute inset-x-[20%] top-10 bottom-10 border-2 border-white/10 rounded-full pointer-events-none"></div>
+                                        <div className="absolute inset-x-[35%] top-0 bottom-0 border-x-2 border-dashed border-white/5 pointer-events-none"></div>
+                                        <div className="flex justify-center w-full z-10">
+                                            <div className="flex flex-col items-center gap-1 cursor-pointer group">
+                                                <div className="relative">
+                                                    <img className="size-14 rounded-full border-2 border-white bg-gray-800 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIFQpBPDTOo_u47CAZgt2SIW9MfiEGeavnfIeZw074D16ymAFJugeqNdXSUj44SAfkkX8Lf1S2z31veuXCerHPSMQKhcyLfCNsrQGhf88ADlILvXjG_MBA68rxWyxfFXDPDUjvXDhCJ7e-w1YIk-V8eSP7Y2WV7L2Vlk7MByQnVn5MZJdI0QVU4cfxbhMukmRN5I6TUihhKz4ovX-o2b-FCj17-8C90EpsRdHf_Haj0uu0XNEhq1ZY-PbLhBhNZRZ8iBF69ggeKXP"/>
+                                                    <div className="absolute -bottom-2 -right-2 size-6 bg-blue-500 rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-surface-dark">WK</div>
+                                                </div>
+                                                <div className="bg-background-dark/90 px-3 py-1 rounded text-center backdrop-blur-sm group-hover:bg-primary group-hover:text-background-dark transition-colors">
+                                                    <p className="text-xs font-bold leading-tight">Buttler</p>
+                                                    <p className="text-[10px] font-medium opacity-80">6 pts</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center gap-8 md:gap-16 w-full z-10">
+                                            <div className="flex flex-col items-center gap-1 cursor-pointer group">
+                                                <div className="relative">
+                                                    <img className="size-14 rounded-full border-2 border-primary bg-gray-800 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXZFPO3ESuh479Z_udNBFU8oaF7b2kRN7rfMCjV62YeKgAs4B0HvQHOib4dmrzxVs0SyrqxXRym60VYDjd76nhejQQNZ9MFgl1Jofk3ahkzI3LMi0srEfc42OHS0t0KfY2c6F2KPrYcDypUT4XmcKs7ZGU8vtIbRBPde_MXG4jgQGNtFOKe-ats0Jjek1s5aBUW7omRNNH9juzCTLdAAYiGOh8n6VQSHnf3AojEEaAhbwE52o_aiKHxLSl0rchXnINGhYKrO5vYz7O"/>
+                                                    <div className="absolute -top-2 -right-2 size-6 bg-black text-white rounded-full flex items-center justify-center text-[10px] font-bold border-2 border-primary">C</div>
+                                                </div>
+                                                <div className="bg-background-dark/90 px-3 py-1 rounded text-center backdrop-blur-sm group-hover:bg-primary group-hover:text-background-dark transition-colors">
+                                                    <p className="text-xs font-bold leading-tight">Kohli</p>
+                                                    <p className="text-[10px] font-medium opacity-80">12 pts</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col items-center gap-1 cursor-pointer group">
+                                                <div className="relative">
+                                                    <img className="size-14 rounded-full border-2 border-white bg-gray-800 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxeA4DywpswnLgrWWiL0Hgc0V3xZBQ83EQ5xcm3tv__qtFkD46yf8C9vToB7tYROxJLsLCkjQoQhSGmlFvA2B1yMeA2U-YDvhi9rLwrHo3OoqIyz6ivRnmNwkO2eu1afJ_biXeOixxtlM8pzOgRcSSWCPdah0V8mqjYOoKosY4-vGKC6aiTVZ_aUgYoWVDox-3NN4blxG-aZh1j3_yXIBVHVfvzBJVBt1qztSiuQKlRGZMoCHpZGknnZWOo4XiwfQdNE4DpVoif6Mh"/>
+                                                </div>
+                                                <div className="bg-background-dark/90 px-3 py-1 rounded text-center backdrop-blur-sm group-hover:bg-primary group-hover:text-background-dark transition-colors">
+                                                    <p className="text-xs font-bold leading-tight">Warner</p>
+                                                    <p className="text-[10px] font-medium opacity-80">2 pts</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center gap-8 md:gap-12 w-full z-10">
+                                            <div className="flex flex-col items-center gap-1 cursor-pointer group">
+                                                <div className="relative">
+                                                    <img className="size-14 rounded-full border-2 border-white bg-gray-800 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUSUf5Tbu2u8eRDlKG_SvhH0ztR7atDJfN-YnyzSO2kuO1_i83wcBMbjKoiLBQbl8gOANGxkO_cW8FYjMAMwI_TG7B6JrgnQBAtgL7SeGi-IAg_LPk-if_MX3CiYlUa2uKhZy-lpBFG4qeXS8d_cxGqgBoyQf-3hTiNrYnckJzHAOoR2TJ44oL25mi3j355ng_0HWAP_RLa7x9D2YCYUOzhZqiV5OYATEkjR2nyFhIN6WmzRLZ6WQefiV7sIocTPfeg0E6ODBGhSE5"/>
+                                                </div>
+                                                <div className="bg-background-dark/90 px-3 py-1 rounded text-center backdrop-blur-sm group-hover:bg-primary group-hover:text-background-dark transition-colors">
+                                                    <p className="text-xs font-bold leading-tight">Bumrah</p>
+                                                    <p className="text-[10px] font-medium opacity-80">7 pts</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col items-center gap-1 cursor-pointer group">
+                                                <div className="relative">
+                                                    <img className="size-14 rounded-full border-2 border-white bg-gray-800 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPKuMDs8d69wqh58LiPNeCHGGX0DSYTMW57xjzUxZIh9ThQ5y9q7mp-6YUnZVUUsyGYVConar-hR538B240LLWfDFuujQ_diu8AgC8k11taSqBYg7QXMcnHxku4MAgypaTdW01PI9PStk14t24Fj5kbxISWxTzoTwjPjwf10eCiXnnNYDDdGjCgYslD1thxF-WQrMVeauSKs8uh1KaIgwMsZd52peUiwbVAPyv-sv7wWmJ7WKT639udnwq4zU5JdcG2TGxBFFaBw6d"/>
+                                                </div>
+                                                <div className="bg-background-dark/90 px-3 py-1 rounded text-center backdrop-blur-sm group-hover:bg-primary group-hover:text-background-dark transition-colors">
+                                                    <p className="text-xs font-bold leading-tight">Rashid</p>
+                                                    <p className="text-[10px] font-medium opacity-80">3 pts</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="lg:col-span-4 flex flex-col gap-6">
+                                <div className="bg-surface-dark rounded-xl border border-white/5 overflow-hidden">
+                                    <div className="p-4 border-b border-white/5 flex justify-between items-center">
+                                        <h3 className="text-white font-bold text-base">Office Buddies League</h3>
+                                        <a className="text-primary text-xs font-bold hover:underline" href="#">View All</a>
+                                    </div>
+                                    <div className="p-2">
+                                        <table className="w-full text-sm text-left">
+                                            <thead className="text-xs text-gray-500 uppercase bg-white/5 rounded">
+                                                <tr>
+                                                    <th className="px-3 py-2 rounded-l">Rank</th>
+                                                    <th className="px-3 py-2">Team</th>
+                                                    <th className="px-3 py-2 rounded-r text-right">Pts</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr className="border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors">
+                                                    <td className="px-3 py-3 font-bold text-gray-400">1</td>
+                                                    <td className="px-3 py-3">
+                                                        <div className="font-medium text-white">Cover Drive Kings</div>
+                                                        <div className="text-[10px] text-gray-500">Sarah J.</div>
+                                                    </td>
+                                                    <td className="px-3 py-3 text-right font-bold text-white">342</td>
+                                                </tr>
+                                                <tr className="bg-primary/10 border-l-2 border-primary border-b border-white/5 hover:bg-primary/20 transition-colors">
+                                                    <td className="px-3 py-3 font-bold text-primary">3</td>
+                                                    <td className="px-3 py-3">
+                                                        <div className="font-bold text-white">Super Sixers</div>
+                                                        <div className="text-[10px] text-gray-400">You</div>
+                                                    </td>
+                                                    <td className="px-3 py-3 text-right font-bold text-primary">320</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div className="relative bg-surface-dark rounded-xl border border-white/5 overflow-hidden p-6 flex flex-col items-start gap-4">
+                                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                                        <span className="material-symbols-outlined text-6xl text-primary">trending_up</span>
+                                    </div>
+                                    <div>
+                                        <span className="inline-block px-2 py-0.5 rounded bg-primary text-background-dark text-[10px] font-bold uppercase tracking-wider mb-2">One to Watch</span>
+                                        <h3 className="text-white font-bold text-lg leading-tight">Rashid Khan</h3>
+                                        <p className="text-gray-400 text-sm">Highest wicket taker in last 3 matches.</p>
+                                    </div>
+                                    <div className="flex items-center gap-4 w-full">
+                                        <div className="relative size-16 shrink-0">
+                                            <img className="size-16 rounded-full border-2 border-primary object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrIY3a2xbwul4oRedsT371mYEV_Gsbr94FLO4NEprrBDj3ApbYV5MTk5g_9qrKuuHDPZDLYAUkK_uz4wFdCw_CVmmHV2zilTj5NWYYt_FpfbjEu48URzVRJWcZnoKqNMY49elfxsqIPOn8BxhdlAyjjHD1PkYiBfra8oTDx8Tj8ORZ4fBC31PtiWB68dn0dIH-oWb7tm_79CVK4nIvXZ0y5RopXeVzQ2RGXNwd8kxL0wuKNleM3XTHSsPFfMdOZVb8XbNAmKRROM3k"/>
+                                        </div>
+                                        <div className="flex-1 grid grid-cols-2 gap-2">
+                                            <div className="bg-background-dark p-2 rounded border border-white/5">
+                                                <div className="text-[10px] text-gray-500 uppercase">Selected By</div>
+                                                <div className="text-sm font-bold text-white">42.5%</div>
+                                            </div>
+                                            <div className="bg-background-dark p-2 rounded border border-white/5">
+                                                <div className="text-[10px] text-gray-500 uppercase">Price</div>
+                                                <div className="text-sm font-bold text-primary">£9.2m</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        }
+
+        const App = () => {
+            return (
+                <MemoryRouter>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/signup" element={<SignupPage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/dashboard" element={<DashboardPage />} />
+                    </Routes>
+                </MemoryRouter>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
