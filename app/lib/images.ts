@@ -15,4 +15,5 @@ export const IMAGES = {
   userAvatar: '/images/user_avatar.jpg',
   carbonFibre: 'https://www.transparenttextures.com/patterns/carbon-fibre.png',
   grass: 'https://www.transparenttextures.com/patterns/grass.png',
+  logo: '/images/logo.png',
 };
