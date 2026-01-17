@@ -4,9 +4,11 @@ import { getCurrentUser, getMyTeam, getLeaderboard } from '@/app/lib/services';
 import PitchView from '@/app/components/features/PitchView';
 
 export default async function DashboardPage() {
-  const user = await getCurrentUser();
-  const team = await getMyTeam();
-  const leaderboard = await getLeaderboard();
+  const [user, team, leaderboard] = await Promise.all([
+    getCurrentUser(),
+    getMyTeam(),
+    getLeaderboard(),
+  ]);
 
   return (
     <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 lg:px-40 py-8 flex flex-col gap-8">
