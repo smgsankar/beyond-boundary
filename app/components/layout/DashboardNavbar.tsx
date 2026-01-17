@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Logo from '../ui/Logo';
 import { IMAGES } from '@/app/lib/images';
 
 export default function DashboardNavbar() {
@@ -7,7 +8,7 @@ export default function DashboardNavbar() {
         <div className="px-4 md:px-10 lg:px-40 py-3 flex items-center justify-between">
             <Link href="/dashboard" className="flex items-center gap-4 text-white">
                 <div className="size-8 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary" style={{ fontSize: '32px' }}>sports_cricket</span>
+                    <Logo />
                 </div>
                 <h2 className="text-white text-xl font-bold leading-tight tracking-tight hidden md:block">BeyondBoundary</h2>
             </Link>
