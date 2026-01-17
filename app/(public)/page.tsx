@@ -34,64 +34,66 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="w-full max-w-7xl px-4 md:px-10 py-6 md:py-10 mx-auto">
-        <div className="relative w-full rounded-2xl overflow-hidden min-h-[520px] md:min-h-[600px] flex items-center bg-[#112217]">
+      <div className="w-full">
+        <div className="relative w-full overflow-hidden min-h-[520px] md:min-h-[600px] flex items-center bg-[#112217]">
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-gradient-to-r from-background-dark via-background-dark/80 to-transparent z-10"></div>
             <img
               alt="Cricket stadium night atmosphere with bright floodlights"
-              className="w-full h-full object-cover object-center opacity-60"
+              className="w-full h-full object-cover object-center opacity-60 right-0"
               src={IMAGES.stadiumBg}
             />
           </div>
-          <div className="relative z-20 flex flex-col gap-6 max-w-2xl px-6 md:px-12 py-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 border border-primary/30 w-fit">
-              <span className="material-symbols-outlined text-primary text-sm">trophy</span>
-              <span className="text-primary text-xs font-bold uppercase tracking-wider">
-                Official T20 Fantasy
-              </span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-black text-white leading-[1.1] tracking-tight">
-              Build Your <span className="text-primary">Dream XI</span>.<br />
-              Conquer the World.
-            </h1>
-            <p className="text-gray-300 text-lg md:text-xl font-light leading-relaxed max-w-lg">
-              The ultimate fantasy cricket experience is here. Compete with millions of managers
-              globally for the T20 World Cup.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <Link
-                href="/signup"
-                className="flex items-center justify-center gap-2 bg-primary hover:bg-[#34f575] text-[#112217] text-base font-bold h-12 px-8 rounded-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(19,236,91,0.3)]"
-              >
-                Play for Free
-                <span className="material-symbols-outlined text-xl">arrow_forward</span>
-              </Link>
-              <button className="flex items-center justify-center gap-2 bg-[#23482f] hover:bg-[#2c5a3b] text-white border border-[#326744] text-base font-bold h-12 px-8 rounded-lg transition-colors">
-                Start a League
-              </button>
-            </div>
-            <div className="flex items-center gap-4 mt-6 pt-6 border-t border-white/10">
-              <div className="flex -space-x-3">
-                <img
-                  alt="User avatar 1"
-                  className="w-8 h-8 rounded-full border-2 border-background-dark"
-                  src={IMAGES.avatar1}
-                />
-                <img
-                  alt="User avatar 2"
-                  className="w-8 h-8 rounded-full border-2 border-background-dark"
-                  src={IMAGES.avatar2}
-                />
-                <img
-                  alt="User avatar 3"
-                  className="w-8 h-8 rounded-full border-2 border-background-dark"
-                  src={IMAGES.avatar3}
-                />
+          <div className="w-full max-w-7xl mx-auto">
+            <div className="relative z-20 flex flex-col gap-6 max-w-2xl px-6 md:px-12 py-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 border border-primary/30 w-fit">
+                <span className="material-symbols-outlined text-primary text-sm">trophy</span>
+                <span className="text-primary text-xs font-bold uppercase tracking-wider">
+                  Official T20 Fantasy
+                </span>
               </div>
-              <p className="text-sm text-gray-400">
-                <span className="text-white font-bold">2.4M+</span> Managers Joined
+              <h1 className="text-4xl md:text-6xl font-black text-white leading-[1.1] tracking-tight">
+                Build Your <span className="text-primary">Dream XI</span>.<br />
+                Conquer the World.
+              </h1>
+              <p className="text-gray-300 text-lg md:text-xl font-light leading-relaxed max-w-lg">
+                The ultimate fantasy cricket experience is here. Compete with millions of managers
+                globally for the T20 World Cup.
               </p>
+              <div className="flex flex-col sm:flex-row gap-4 mt-4">
+                <Link
+                  href="/signup"
+                  className="flex items-center justify-center gap-2 bg-primary hover:bg-[#34f575] text-[#112217] text-base font-bold h-12 px-8 rounded-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(19,236,91,0.3)]"
+                >
+                  Play for Free
+                  <span className="material-symbols-outlined text-xl">arrow_forward</span>
+                </Link>
+                <button className="flex items-center justify-center gap-2 bg-[#23482f] hover:bg-[#2c5a3b] text-white border border-[#326744] text-base font-bold h-12 px-8 rounded-lg transition-colors">
+                  Start a League
+                </button>
+              </div>
+              <div className="flex items-center gap-4 mt-6 pt-6 border-t border-white/10">
+                <div className="flex -space-x-3">
+                  <img
+                    alt="User avatar 1"
+                    className="w-8 h-8 rounded-full border-2 border-background-dark"
+                    src={IMAGES.avatar1}
+                  />
+                  <img
+                    alt="User avatar 2"
+                    className="w-8 h-8 rounded-full border-2 border-background-dark"
+                    src={IMAGES.avatar2}
+                  />
+                  <img
+                    alt="User avatar 3"
+                    className="w-8 h-8 rounded-full border-2 border-background-dark"
+                    src={IMAGES.avatar3}
+                  />
+                </div>
+                <p className="text-sm text-gray-400">
+                  <span className="text-white font-bold">2.4M+</span> Managers Joined
+                </p>
+              </div>
             </div>
           </div>
         </div>
