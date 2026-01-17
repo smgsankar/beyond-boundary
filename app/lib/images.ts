@@ -1,0 +1,18 @@
+export const IMAGES = {
+  indiaFlag: '/images/india_flag.png',
+  australiaFlag: '/images/australia_flag.png',
+  stadiumBg: '/images/stadium_bg.jpg',
+  avatar1: '/images/avatar1.jpg',
+  avatar2: '/images/avatar2.jpg',
+  avatar3: '/images/avatar3.jpg',
+  buttler: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDIFQpBPDTOo_u47CAZgt2SIW9MfiEGeavnfIeZw074D16ymAFJugeqNdXSUj44SAfkkX8Lf1S2z31veuXCerHPSMQKhcyLfCNsrQGhf88ADlILvXjG_MBA68rxWyxfFXDPDUjvXDhCJ7e-w1YIk-V8eSP7Y2WV7L2Vlk7MByQnVn5MZJdI0QVU4cfxbhMukmRN5I6TUihhKz4ovX-o2b-FCj17-8C90EpsRdHf_Haj0uu0XNEhq1ZY-PbLhBhNZRZ8iBF69ggeKXP',
+  kohli: '/images/kohli.jpg',
+  warner: '/images/warner.jpg',
+  bumrah: '/images/bumrah.jpg',
+  rashid: '/images/rashid.jpg',
+  rashidLarge: '/images/rashid_large.jpg',
+  dashboardBg: '/images/dashboard_bg.jpg',
+  userAvatar: '/images/user_avatar.jpg',
+  carbonFibre: 'https://www.transparenttextures.com/patterns/carbon-fibre.png',
+  grass: 'https://www.transparenttextures.com/patterns/grass.png',
+};

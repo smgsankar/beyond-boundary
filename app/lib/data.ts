@@ -1,0 +1,201 @@
+import { User, Match, LeaderboardEntry, Player } from './definitions';
+import { IMAGES } from './images';
+
+export const CURRENT_USER: User = {
+  id: 'u1',
+  name: 'Ashwin K.',
+  email: 'ashwin@example.com',
+  teamName: 'Super Sixers',
+  points: 320,
+  rank: 14021,
+  avatar: IMAGES.userAvatar,
+};
+
+export const MATCHES: Match[] = [
+  {
+    id: 'm1',
+    team1: 'India',
+    team1Short: 'IND',
+    team1Flag: IMAGES.indiaFlag,
+    team1Score: '145/3',
+    team1Overs: '15.2 Ov',
+    team2: 'Pakistan',
+    team2Short: 'PAK',
+    team2Flag: '', // Placeholder or Emoji
+    status: 'LIVE',
+    date: 'Today',
+    venue: 'Nassau County Stadium, NY',
+    group: 'Group A',
+    featuredPlayer: 'Kohli 56* (34) • Afridi 2/24',
+  },
+  {
+    id: 'm2',
+    team1: 'Australia',
+    team1Short: 'AUS',
+    team1Flag: IMAGES.australiaFlag,
+    team2: 'England',
+    team2Short: 'ENG',
+    team2Flag: '',
+    status: 'UPCOMING',
+    date: 'Today, 19:30',
+    time: '19:30',
+    venue: 'Kensington Oval, Barbados',
+    group: 'Group B',
+  },
+  {
+    id: 'm3',
+    team1: 'South Africa',
+    team1Short: 'SA',
+    team1Flag: '',
+    team2: 'New Zealand',
+    team2Short: 'NZ',
+    team2Flag: '',
+    status: 'UPCOMING',
+    date: 'Tomorrow, 14:00',
+    time: '14:00',
+    venue: 'Nassau County Stadium, NY',
+    group: 'Group A',
+  },
+  {
+    id: 'm4',
+    team1: 'West Indies',
+    team1Short: 'WI',
+    team1Flag: '',
+    team2: 'Sri Lanka',
+    team2Short: 'SL',
+    team2Flag: '',
+    status: 'UPCOMING',
+    date: 'Tomorrow, 19:30',
+    time: '19:30',
+    venue: 'Brian Lara Academy, Trinidad',
+    group: 'Group B',
+  },
+];
+
+export const LEADERBOARD: LeaderboardEntry[] = [
+  {
+    rank: 1,
+    user: {
+      name: 'ViratFan_18',
+      teamName: 'Yorker Kings',
+      avatar: IMAGES.avatar1,
+      country: 'IND'
+    },
+    points: 5021,
+    movement: 0,
+  },
+  {
+    rank: 2,
+    user: {
+      name: 'AussieThunder',
+      teamName: 'Cover Drive XI',
+      avatar: IMAGES.avatar2,
+      country: 'AUS'
+    },
+    points: 4988,
+    movement: 1,
+  },
+  {
+    rank: 3,
+    user: {
+      name: 'LondonSpirit_XL',
+      teamName: 'Googly Master',
+      avatar: IMAGES.avatar3,
+      country: 'ENG'
+    },
+    points: 4950,
+    movement: -1,
+  },
+  {
+    rank: 4,
+    user: {
+      name: 'CricMaster99',
+      teamName: 'Spin Wizards',
+      avatar: IMAGES.avatar1,
+    },
+    points: 4820,
+    movement: 12,
+  },
+  {
+    rank: 5,
+    user: {
+      name: 'SpinKing_08',
+      teamName: 'Boundary Bashers',
+      avatar: IMAGES.avatar2,
+    },
+    points: 4795,
+    movement: 0,
+  },
+];
+
+export const MY_TEAM: Player[] = [
+  {
+    id: 'p1',
+    name: 'Buttler',
+    role: 'WK',
+    team: 'ENG',
+    points: 6,
+    credits: 9.5,
+    imageUrl: IMAGES.buttler,
+  },
+  {
+    id: 'p2',
+    name: 'Kohli',
+    role: 'BAT',
+    team: 'IND',
+    points: 12,
+    credits: 10.5,
+    imageUrl: IMAGES.kohli,
+    isCaptain: true,
+  },
+  {
+    id: 'p3',
+    name: 'Warner',
+    role: 'BAT',
+    team: 'AUS',
+    points: 2,
+    credits: 9.0,
+    imageUrl: IMAGES.warner,
+  },
+  {
+    id: 'p4',
+    name: 'Bumrah',
+    role: 'BOWL',
+    team: 'IND',
+    points: 7,
+    credits: 9.0,
+    imageUrl: IMAGES.bumrah,
+  },
+  {
+    id: 'p5',
+    name: 'Rashid',
+    role: 'BOWL',
+    team: 'AFG',
+    points: 3,
+    credits: 9.2,
+    imageUrl: IMAGES.rashid,
+  },
+];
+
+export const PLAYERS: Player[] = [
+  ...MY_TEAM,
+  // Add some more dummy players
+  {
+    id: 'p6',
+    name: 'Sharma',
+    role: 'BAT',
+    team: 'IND',
+    points: 0,
+    credits: 9.5,
+    imageUrl: IMAGES.userAvatar, // Fallback
+  },
+  {
+    id: 'p7',
+    name: 'Cummins',
+    role: 'BOWL',
+    team: 'AUS',
+    points: 0,
+    credits: 9.0,
+    imageUrl: IMAGES.userAvatar,
+  },
+];
