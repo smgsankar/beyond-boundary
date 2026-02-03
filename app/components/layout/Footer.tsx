@@ -5,11 +5,8 @@ export default function Footer() {
     <footer className="bg-white dark:bg-[#0a160e] border-t border-[#e6e8eb] dark:border-[#23482f] pt-16 pb-8 px-4 md:px-10">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
         <div className="flex flex-col gap-4 max-w-xs">
-          <div className="flex items-center gap-2 text-[#111418] dark:text-white">
-            <div className="size-6">
-              <Logo />
-            </div>
-            <h2 className="text-lg font-bold leading-tight tracking-[-0.015em]">BeyondBoundary</h2>
+          <div className="text-[#111418] dark:text-white">
+            <Logo showText size="md" />
           </div>
           <p className="text-sm text-gray-500 dark:text-gray-400">
             The world&apos;s biggest fantasy cricket game. Built for fans, by fans.
